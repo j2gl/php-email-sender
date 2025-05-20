@@ -39,8 +39,12 @@ session_start();
                 <input type="password" id="smtp_password" name="smtp_password" value="<?php echo isset($_SESSION['form_data']['smtp_password']) ? $_SESSION['form_data']['smtp_password'] : ''; ?>" required>
             </div>
             <div class="form-group">
+                <label for="from_email">To Email:</label>
+                <input type="email" id="from_email" name="from_email" value="<?php echo isset($_SESSION['form_data']['from_email']) ? $_SESSION['form_data']['from_email'] : 'no-reply-plastimax@mail1-aws.sltech-gt.com'; ?>" required>
+            </div>
+            <div class="form-group">
                 <label for="to_email">To Email:</label>
-                <input type="email" id="to_email" name="to_email" value="<?php echo isset($_SESSION['form_data']['to_email']) ? $_SESSION['form_data']['to_email'] : 'veloro7353@bamsrad.com'; ?>" required>
+                <input type="email" id="to_email" name="to_email" value="<?php echo isset($_SESSION['form_data']['to_email']) ? $_SESSION['form_data']['to_email'] : ''; ?>" required>
             </div>
             <div class="form-group">
                 <label for="subject">Subject:</label>

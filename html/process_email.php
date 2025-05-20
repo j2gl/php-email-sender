@@ -15,6 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $smtp_port = $_POST["smtp_port"];
     $smtp_username = $_POST["smtp_username"];
     $smtp_password = $_POST["smtp_password"];
+    $from_email = $_POST["from_email"];
     $to_email = $_POST["to_email"];
     $subject = $_POST["subject"];
     $body = $_POST["body"];
@@ -36,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail->Port       = $smtp_port;
 
         //Recipients
-        $mail->setFrom($smtp_username, 'PHP Mailer');
+        $mail->setFrom($from_email, 'PHP Mailer Test');
         $mail->addAddress($to_email);
 
         //Content
