@@ -1,0 +1,21 @@
+services:
+  mantis-webserver:
+    container_name: php-mail-sender
+    build:
+      context: .
+    ports:
+      - "8090:80"
+    volumes:
+      - "./html:/var/www/html"
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "10"
+    networks: 
+      - master-webserver-net
+
+networks:
+  master-webserver-net:
+    external: true
