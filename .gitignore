@@ -1,0 +1,5 @@
+# Common files
+.DS_Store
+
+# Specific for this project
+temp/
