@@ -1,5 +1,6 @@
 <?php
 session_start();
+$configs = require __DIR__ . '/email_configs.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +22,16 @@ session_start();
                 <?php unset($_SESSION['message']); ?>
             <?php endif; ?>
         </div>
-        <form action="process_email.php" method="POST">
+        <form action="process_email.php" method="POST" id="emailForm">
+            <div class="form-group">
+                <label for="config_select">Choose Configuration:</label>
+                <select id="config_select" name="config_index">
+                    <option value="">-- Custom / Manual --</option>
+                    <?php foreach ($configs as $idx => $cfg): ?>
+                        <option value="<?php echo $idx; ?>"><?php echo htmlspecialchars($cfg['name']); ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
             <div class="form-group">
                 <label for="smtp_host">SMTP Host:</label>
                 <input type="text" id="smtp_host" name="smtp_host" value="<?php echo isset($_SESSION['form_data']['smtp_host']) ? $_SESSION['form_data']['smtp_host'] : 'smtp.gmail.com'; ?>" required>
@@ -39,7 +49,7 @@ session_start();
                 <input type="password" id="smtp_password" name="smtp_password" value="<?php echo isset($_SESSION['form_data']['smtp_password']) ? $_SESSION['form_data']['smtp_password'] : ''; ?>" required>
             </div>
             <div class="form-group">
-                <label for="from_email">To Email:</label>
+                <label for="from_email">From Email:</label>
                 <input type="email" id="from_email" name="from_email" value="<?php echo isset($_SESSION['form_data']['from_email']) ? $_SESSION['form_data']['from_email'] : 'no-reply-plastimax@mail1-aws.sltech-gt.com'; ?>" required>
             </div>
             <div class="form-group">
@@ -64,6 +74,24 @@ session_start();
     </div>
 
     <script>
+        // Configs for JS
+        const configs = <?php echo json_encode($configs); ?>;
+        const form = document.getElementById('emailForm');
+        const configSelect = document.getElementById('config_select');
+
+        configSelect.addEventListener('change', function() {
+            const idx = this.value;
+            if (idx === "") return; // Manual mode
+            const cfg = configs[idx];
+            if (!cfg) return;
+            form.smtp_host.value = cfg.smtp_host;
+            form.smtp_port.value = cfg.smtp_port;
+            form.smtp_username.value = cfg.smtp_username;
+            form.smtp_password.value = cfg.smtp_password;
+            form.from_email.value = cfg.from_email;
+            form.to_email.value = cfg.to_email;
+        });
+
         function clearMessage() {
             const messageContainer = document.getElementById('message-container');
             messageContainer.innerHTML = '';
