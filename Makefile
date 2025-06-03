@@ -27,3 +27,9 @@ down:
 logs:
 	docker compose logs -f -n 1000
 
+
+# --------------------------
+# Get into the container
+# --------------------------
+bash:
+	docker exec -it php-mail-sender /bin/bash

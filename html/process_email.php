@@ -8,7 +8,7 @@ if (isset($_POST['clear_session'])) {
     exit();
 }
 
-require '../../vendor/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
 $configs = require __DIR__ . '/email_configs.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
