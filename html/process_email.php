@@ -8,15 +8,28 @@ if (isset($_POST['clear_session'])) {
     exit();
 }
 
-require '../../vendor/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
+$configs = require __DIR__ . '/email_configs.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $smtp_host = $_POST["smtp_host"];
-    $smtp_port = $_POST["smtp_port"];
-    $smtp_username = $_POST["smtp_username"];
-    $smtp_password = $_POST["smtp_password"];
-    $from_email = $_POST["from_email"];
-    $to_email = $_POST["to_email"];
+    // Use config if selected
+    $config_index = isset($_POST['config_index']) && $_POST['config_index'] !== '' ? intval($_POST['config_index']) : null;
+    if ($config_index !== null && isset($configs[$config_index])) {
+        $cfg = $configs[$config_index];
+        $smtp_host = $cfg['smtp_host'];
+        $smtp_port = $cfg['smtp_port'];
+        $smtp_username = $cfg['smtp_username'];
+        $smtp_password = $cfg['smtp_password'];
+        $from_email = $cfg['from_email'];
+        $to_email = $cfg['to_email'];
+    } else {
+        $smtp_host = $_POST["smtp_host"];
+        $smtp_port = $_POST["smtp_port"];
+        $smtp_username = $_POST["smtp_username"];
+        $smtp_password = $_POST["smtp_password"];
+        $from_email = $_POST["from_email"];
+        $to_email = $_POST["to_email"];
+    }
     $subject = $_POST["subject"];
     $body = $_POST["body"];
 
